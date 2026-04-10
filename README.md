@@ -1,10 +1,10 @@
-# ISV多语言补丁包合并工具
+# ISV多语言包处理工具
 
 将ISV多语言补丁包合并到产品补丁包结构中，自动完成解压、目录重组和datamodel.xml更新。
 
 ## 功能特性
 
-- ✅ 自动提取语言代码（从文件名解析）
+- ✅ 自动识别语言代码（从datamodel.xml的item path属性解析）
 - ✅ 批量解压dm目录下的所有zip文件
 - ✅ 自动创建 `mul_<语言代码>` 目录结构
 - ✅ 自动更新datamodel.xml应用列表
@@ -21,6 +21,15 @@
 |------|------|------|
 | `zip_path` | 是 | 多语言补丁包zip文件的完整路径 |
 | `target_dir` | 否 | 目标路径，默认为zip文件所在目录 |
+
+## 语言代码识别
+
+语言代码不再从zip文件名提取，而是通过以下方式自动识别：
+
+1. 解压补丁包后，读取 `datamodel/datamodel.xml`
+2. 获取第一个 `<item>` 节点的 `path` 属性
+3. 取 `path` 值中第一个 `/` 之前的部分作为语言代码
+4. 示例：`path="TH/digi_asset_mgt"` → 语言代码为 `TH`
 
 ## 终止条件
 
@@ -76,6 +85,7 @@ D:\Work\Output\datamodel\mul_TH\1.5\TH\digi_assets\
 
 - **v1.0** - 初始版本，支持基本的合并功能
 - **v1.1** - 增加规范性校验（kdpkgs.xml检查）
+- **v1.2** - 语言代码改为从datamodel.xml自动识别，工具更名为ISV多语言包处理工具
 
 ## License
 
